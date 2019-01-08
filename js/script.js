@@ -4,7 +4,8 @@ FSJS project 2 - List Filter and Pagination
 ******************************************/
 
 // Add variables that store DOM elements you will need to reference and/or manipulate
-var students = document.getElementsByClassName("student-list");
+const ul = document.getElementsByClassName("student-list");
+const items = ul.getElementsByTagName("li");
 
 
 
@@ -12,12 +13,12 @@ var students = document.getElementsByClassName("student-list");
 // Tip: Keep in mind that with a list of 54 students, the last page will only display four
 
 //This function divides the list of students into 'n' groups of 10.
-function splitIntoTens() {
-  const numberOfChildren = students.childElementCount;
+function splitIntoTens(studentList) {
+  const numberOfChildren = studentList.childElementCount;
   console.log(numberOfChildren);
 }
 
-splitIntoTens();
+//splitIntoTens();
 
 
 // Create and append the pagination links - Creating a function that can do this is a good approach
