@@ -4,21 +4,27 @@ FSJS project 2 - List Filter and Pagination
 ******************************************/
 
 // Add variables that store DOM elements you will need to reference and/or manipulate
-const studentList = document.getElementById("student-list");
-const items = studentList.getElementsByTagName("li");
-
+let studentList = document.getElementById("student-list");
+let studentListItems = studentList.getElementsByTagName("li");
+let numberOfStudents = studentList.childElementCount;
+const studentsPerPage = 10;
+let groupsOfTen = Math.floor(numberOfStudents / studentsPerPage);
+let leftoverStudents = numberOfStudents % studentsPerPage;
+let pages = groupsOfTen + 1;
 
 
 // Create a function to hide all of the items in the list except for the ten you want to show
 // Tip: Keep in mind that with a list of 54 students, the last page will only display four
 
-//This function divides the list of students into 'n' groups of 10.
-function splitIntoTens(studentList) {
-  //const numberOfChildren = studentList.childElementCount;
-  console.log(studentList.childNodes);
+function showOnlyTenStudents(list) {
+  for(var i = 0; i < studentListItems.length; i++) {
+    if (studentListItems[i] > studentsPerPage) {
+      studentListItems[i].style.display = "none";
+    }
+  }
 }
 
-//splitIntoTens();
+document.getElementById("student-list").value = showOnlyTenStudents(studentListItems);
 
 
 // Create and append the pagination links - Creating a function that can do this is a good approach
