@@ -17,11 +17,14 @@ FSJS project 2 - List Filter and Pagination
    scoped to that function.
 ***/
 
-let list = document.getElementsByTagName("li");
-let page = 6;
+const listUL = document.getElementsByClassName("student-list")[0];
+const list = listUL.getElementsByTagName("li");
+const showPerPage = 10;
+let page = 1;
 let pageFirstStudentIndex = 10 * (page - 1);
 let pageLastStudentIndex = pageFirstStudentIndex + 9;
-let showPerPage = 10;
+
+
 
 
 /***
@@ -49,10 +52,11 @@ item that should be shown on the page
 that should be shown on the page, show it
 */
 
-
     for (let i = 0; i < list.length ; i++) {
       if (i < pageFirstStudentIndex || i > pageLastStudentIndex) {
         list[i].style.display = "none";
+      } else {
+        list[i].style.display = "";
       }
     }
 };
@@ -63,7 +67,7 @@ that should be shown on the page, show it
    functionality to the pagination buttons.
 ***/
 
-const appendPageLinks = (list) => {
+const appendPageLinks = (list, showPerPage) => {
 /*
 1. Determine how many pages are needed for the list by dividing the
 total number of list items by the max number of items per page
@@ -76,9 +80,55 @@ call the showPage function to display the appropriate page
 7. Add the active class to the link that was just clicked. You can identify that
 clicked link using event.target
 */
+
+  let howManyPages = Math.ceil(list.length / showPerPage);
+  let paginationDiv = document.createElement("div");
+  paginationDiv.setAttribute("class", "pagination");
+  document.getElementsByClassName("page")[0].appendChild(paginationDiv);
+
+  let paginationLinks = document.createElement("ul");
+  paginationLinks.setAttribute("class", "links");
+  document.getElementsByClassName("pagination")[0].appendChild(paginationLinks);
+
+  for (let i = 0; i < howManyPages; i++) {
+    let newLI = document.createElement("li");
+    newLI.setAttribute("class", "pageNumberLink")
+    document.getElementsByClassName("links")[0].appendChild(newLI);
+
+
+    let newA = document.createElement("a");
+    newA.innerHTML = i + 1;
+    if (i == 0) {
+      newA.setAttribute("class", "active")
+    }
+    newA.addEventListener("click", function(){
+      page = i + 1;
+      pageFirstStudentIndex = 10 * (page - 1);
+      pageLastStudentIndex = pageFirstStudentIndex + 9;
+      showPage(list, page);
+
+      let activeClass = document.querySelectorAll(".active")
+      for (let y = 0; y < activeClass.length; y++) {
+        activeClass[y].classList.remove("active");
+      }
+
+      newA.setAttribute("class", "active");
+
+    });
+    document.getElementsByClassName("pageNumberLink")[i].appendChild(newA);
+
+  }
+
+/*
+  for (let i = 0; i < howManyPages; i++) {
+    document.getElementsByClassName("pageNumberLink")[0].children[i].removeClass('active');
+  }
+*/
+
 };
 
 showPage(list, page);
+appendPageLinks(list, showPerPage);
 
 
 
